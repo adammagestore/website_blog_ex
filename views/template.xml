@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--Remove the blog name and blog sub title when view the blog page: http://localhost:8069/blog/our-blog-1-->
+    <template id="blog_post_short_inherit" inherit_id="website_blog.blog_post_short" name="blog_post_short_inherit">
+        <xpath expr="//div[@class='oe_structure']" position="replace">
+            <div class="oe_structure">
+                <section class="mb0">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 mb32 mt16 text-center">
+                                <!--<h1 t-field="blog.name"/>-->
+                                <!--<h3 class="text-muted" t-field="blog.subtitle"/>-->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <!--Chen them block: Bai viet cung danh muc vao ben duoi cua tung blog post-->
+    <template id="blog_post_complete_inherit" inherit_id="website_blog.blog_post_complete" name="Bai viet cung danh muc">
+        <xpath expr="//div[@id='blog_content']" position="after">
+            <t t-name="blog_post_complete_inherit_template">
+                <div t-if="the_same_number &gt; 0 ">
+                    <section class="s_text_block mt48 mb0" data-oe-id="791" data-oe-xpath="/data/xpath/section[1]" data-oe-model="ir.ui.view" data-oe-field="arch">
+                        <div class="container">
+                            <h3 class="text-center" style="text-align: left; ">Bài viết cùng danh mục:</h3>
+                        </div>
+                    </section>
+
+                    <div clas="thesameblogpost-header">
+                        <div t-foreach="the_same_posts" t-as="blogpost">
+                            <section class="s_image_text">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-3 mt16 mb8">
+                                            <h5>
+                                                <a t-att-href="blogpost.website_url"><span t-field="blogpost.name"/></a>
+                                            </h5>
+                                            <!--<div t-field="blogpost.content"></div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!--Hien thi so luong bai viet publish o tung website-->
+    <template id="website_blog.opt_blog_rc_blogs" name="Our Blogsx" priority="6"
+        inherit_id="website_blog.index_right" active="True" customize_show="True">
+        <xpath expr="//div[@id='main_column']" position="attributes">
+            <attribute name="class">col-sm-8</attribute>
+        </xpath>
+        <xpath expr="//div[@id='blog_right_column']" position="inside">
+            <section class="mt32 mb32">
+            <h4>Our Blogs</h4>
+            <ul class="nav nav-pills nav-stacked">
+                <t t-foreach="blogs" t-as="nav_blog">
+                    <t t-set="number" t-value="nav_blog.id"/>
+                    <li t-att-class="nav_blog.id == blog.id and 'active' or None">
+                        <a t-attf-href="#{blog_url(blog=nav_blog, tag=False, date_begin=False, date_end=False)}">
+                            <span t-field="nav_blog.name"/>
+                            <span class="pull-right badge" t-esc="blog_dict[number]"></span>
+                        </a>
+                    </li>
+                </t>
+            </ul>
+            </section>
+        </xpath>
+    </template>
+
+    <!--Hien thi bai viet cung danh muc o right column-->
+    <!--<template id="blog_post_complete_inherit" inherit_id="website_blog.blog_post_complete" name="Bai viet cung danh muc">-->
+        <!--<xpath expr="//div[@id='blog_content']" position="after">-->
+            <!--<t t-name="blog_post_complete_inherit_template">-->
+                <!--<div t-if="the_same_number &gt; 0 ">-->
+                    <!--<section class="s_text_block mt48 mb0" data-oe-id="791" data-oe-xpath="/data/xpath/section[1]" data-oe-model="ir.ui.view" data-oe-field="arch">-->
+                        <!--<div class="container">-->
+                            <!--<h3 class="text-center" style="text-align: left; ">Bài viết cùng danh mục:</h3>-->
+                        <!--</div>-->
+                    <!--</section>-->
+
+                    <!--<div clas="thesameblogpost-header">-->
+                        <!--<div t-foreach="the_same_posts" t-as="blogpost">-->
+                            <!--<section class="s_image_text">-->
+                                <!--<div class="container">-->
+                                    <!--<div class="row">-->
+                                        <!--<div class="col-md-3 mt16 mb8">-->
+                                            <!--<h5>-->
+                                                <!--<a t-att-href="blogpost.website_url"><span t-field="blogpost.name"/></a>-->
+                                            <!--</h5>-->
+                                            <!--&lt;!&ndash;<div t-field="blogpost.content"></div>&ndash;&gt;-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</section>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</t>-->
+        <!--</xpath>-->
+    <!--</template>-->
+
+</odoo>
